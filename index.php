@@ -12,6 +12,10 @@ echo $googleAnalyticsPath;
 require_once(PATH_TO_API . 'Google/Client.php');
 require_once(PATH_TO_API . 'Google/Service/Analytics.php');
 
+$text =  file_get_content($googleClientPath);
+
+echo $text;
+
 // create client object and set app name
 $client = new Google_Client();
 $client->setApplicationName(APP_NAME); // name of your app
