@@ -3,6 +3,12 @@
 // api dependencies
 define('PATH_TO_API', 'google-api/google-api/src/'); 
 
+$googleClientPath = PATH_TO_API . 'Google/Client.php';
+$googleAnalyticsPath = PATH_TO_API . 'Google/Service/Analytics.php';
+
+echo $googleClientPath;
+echo $googleAnalyticsPath;
+
 require_once(PATH_TO_API . 'Google/Client.php');
 require_once(PATH_TO_API . 'Google/Service/Analytics.php');
 
