@@ -1,9 +1,8 @@
 <?php
-//notasecret;
 
   // Creates and returns the Analytics service object.
-
   // Load the Google API PHP Client Library.
+
 require_once 'google-api/src/Google/autoload.php';
 
 /**
@@ -22,11 +21,8 @@ require_once 'google-api/src/Google/autoload.php';
  *    real time metrics doc: https://developers.google.com/analytics/devguides/reporting/realtime/dimsmets/
  */
 
-//set_include_path('src/' . PATH_SEPARATOR . get_include_path());
-//require_once 'Google/Client.php';
-//require_once 'Google/Service/Analytics.php';
 
-$CLIENT_ID = '447727541860-ghp5i2ksj27tgqb094tc2oesg6n4h4rg.apps.googleusercontent.com';
+$CLIENT_ID = '447727541860-hd9u52fs8ndhjdjlib41h33rqrv5jkh0.apps.googleusercontent.com';
 $CLIENT_EMAIL = '447727541860-qolo6asbe2qpb93ke4b9m1a636lb0odq@developer.gserviceaccount.com';
 $SCOPE = 'https://www.googleapis.com/auth/analytics.readonly';
 $KEY_FILE = 'client_secrets.p12';
@@ -48,7 +44,10 @@ try {
         $GA_VIEW_ID,
         'rt:activeVisitors'
     );
-    var_dump($result->totalsForAllResults['rt:activeVisitors']);
+
+	//print the number of visitors realtime
+    echo $result->totalsForAllResults['rt:activeVisitors'];
+        
 } catch(Exception $e) {
     var_dump($e);
 }
