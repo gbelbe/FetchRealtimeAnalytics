@@ -1,120 +1,55 @@
 <?php
 //notasecret;
-function getService()
-{
+
   // Creates and returns the Analytics service object.
 
   // Load the Google API PHP Client Library.
-  require_once 'google-api/src/Google/autoload.php';
+require_once 'google-api/src/Google/autoload.php';
 
-  // Use the developers console and replace the values with your
-  // service account email, and relative location of your key file.
-  $service_account_email = '447727541860-qolo6asbe2qpb93ke4b9m1a636lb0odq@developer.gserviceaccount.com';
-  $key_file_location = 'client_secrets.p12';
+/**
+ * 1. create project at https://console.developers.google.com/project
+ * 2. enable 'Analytics API' under 'APIs & auth' / APIs
+ * 3. create 'NEW CLIENT ID' (OAuth client) under 'APIs & auth' / Credentials
+ *    i.  select 'Service account'
+ *    ii. save generated key file to 'key.p12'
+ *    iii. remember CLIENT ID
+ * 4. under GA account add 'Read & Analyze' access to newly generated email (access to GA Account not Property nor View)
+ * 5. get View ID. go to GA Admin section, select proper Account, than proper Property, than proper View.
+      Under View click on 'View settings' and copy the number below 'View ID' (that is your GA_VIEW_ID number)
+ * 5. download google php library https://github.com/google/google-api-php-client
+ * 6. use the code below, use info from google API console (1.)
+ *    doc here: https://developers.google.com/analytics/devguides/reporting/realtime/v3/reference/data/realtime/get 
+ *    real time metrics doc: https://developers.google.com/analytics/devguides/reporting/realtime/dimsmets/
+ */
 
-  // Create and configure a new client object.
-  $client = new Google_Client();
-  $client->setApplicationName("HelloAnalytics");
-  $analytics = new Google_Service_Analytics($client);
+//set_include_path('src/' . PATH_SEPARATOR . get_include_path());
+//require_once 'Google/Client.php';
+//require_once 'Google/Service/Analytics.php';
 
-  // Read the generated client_secrets.p12 key.
-  $key = file_get_contents($key_file_location);
-  $cred = new Google_Auth_AssertionCredentials(
-      $service_account_email,
-      array(Google_Service_Analytics::ANALYTICS_READONLY),
-      $key
-  );
-  $client->setAssertionCredentials($cred);
-  if($client->getAuth()->isAccessTokenExpired()) {
-    $client->getAuth()->refreshTokenWithAssertion($cred);
-  }
+$CLIENT_ID = '447727541860-ghp5i2ksj27tgqb094tc2oesg6n4h4rg.apps.googleusercontent.com';
+$CLIENT_EMAIL = '447727541860-qolo6asbe2qpb93ke4b9m1a636lb0odq@developer.gserviceaccount.com';
+$SCOPE = 'https://www.googleapis.com/auth/analytics.readonly';
+$KEY_FILE = 'client_secrets.p12';
+$GA_VIEW_ID = 'ga:61330176';
 
-  return $analytics;
+$client = new Google_Client();
+$client->setClientId($CLIENT_ID);
+$client->setAssertionCredentials(
+    new Google_Auth_AssertionCredentials(
+        $CLIENT_EMAIL,
+        array($SCOPE),
+        file_get_contents($KEY_FILE)
+    )
+);
+
+$service = new Google_Service_Analytics($client);
+try {
+    $result = $service->data_realtime->get(
+        $GA_VIEW_ID,
+        'rt:activeVisitors'
+    );
+    var_dump($result->totalsForAllResults['rt:activeVisitors']);
+} catch(Exception $e) {
+    var_dump($e);
 }
-
-
-
-
-
-function getFirstprofileId(&$analytics) {
-  // Get the user's first view (profile) ID.
-
-  // Get the list of accounts for the authorized user.
-  $accounts = $analytics->management_accounts->listManagementAccounts();
-
-  if (count($accounts->getItems()) > 0) {
-    $items = $accounts->getItems();
-    $firstAccountId = $items[0]->getId();
-
-    // Get the list of properties for the authorized user.
-    $properties = $analytics->management_webproperties
-        ->listManagementWebproperties($firstAccountId);
-
-    if (count($properties->getItems()) > 0) {
-      $items = $properties->getItems();
-      $firstPropertyId = $items[0]->getId();
-
-      // Get the list of views (profiles) for the authorized user.
-      $profiles = $analytics->management_profiles
-          ->listManagementProfiles($firstAccountId, $firstPropertyId);
-
-      if (count($profiles->getItems()) > 0) {
-        $items = $profiles->getItems();
-
-        // Return the first view (profile) ID.
-        return $items[0]->getId();
-
-      } else {
-        throw new Exception('No views (profiles) found for this user.');
-      }
-    } else {
-      throw new Exception('No properties found for this user.');
-    }
-  } else {
-    throw new Exception('No accounts found for this user.');
-  }
-}
-
-function getResults(&$analytics, $profileId) {
-  // Calls the Core Reporting API and queries for the number of sessions
-  // for the last seven days.
-   return $analytics->data_ga->get(
-       'ga:' . $profileId,
-       '7daysAgo',
-       'today',
-       'ga:sessions');
-}
-
-function printResults(&$results) {
-  // Parses the response from the Core Reporting API and prints
-  // the profile name and total sessions.
-  if (count($results->getRows()) > 0) {
-
-    // Get the profile name.
-    $profileName = $results->getProfileInfo()->getProfileName();
-
-    // Get the entry for the first entry in the first row.
-    $rows = $results->getRows();
-    $sessions = $rows[0][0];
-
-    // Print the results.
-    print "First view (profile) found: $profileName\n";
-    print "Total sessions: $sessions\n";
-  } else {
-    print "No results found.\n";
-  }
-}
-
-$analytics = getService();
-$profile = getFirstProfileId($analytics);
-
-//var_dump($profile);
-
-$results = getResults($analytics, $profile);
-
-//var_dump($results);
-printResults($results);
-
-
-
 ?>
