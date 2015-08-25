@@ -46,7 +46,7 @@ try {
     );
 
 	//print the number of visitors realtime
-    echo $result->totalsForAllResults['rt:activeVisitors'];
+    echo "<".$result->totalsForAllResults['rt:activeVisitors'].">";
         
 } catch(Exception $e) {
     var_dump($e);
