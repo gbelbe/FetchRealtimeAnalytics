@@ -23,7 +23,7 @@ require_once 'google-api/src/Google/autoload.php';
 
 
 $CLIENT_ID = '447727541860-hd9u52fs8ndhjdjlib41h33rqrv5jkh0.apps.googleusercontent.com';
-$CLIENT_EMAIL = '447727541860-qolo6asbe2qpb93ke4b9m1a636lb0odq@developer.gserviceaccount.com';
+$CLIENT_ACCOUNT_EMAIL = '447727541860-qolo6asbe2qpb93ke4b9m1a636lb0odq@developer.gserviceaccount.com';
 $SCOPE = 'https://www.googleapis.com/auth/analytics.readonly';
 $KEY_FILE = 'client_secrets.p12';
 $GA_VIEW_ID = 'ga:61330176';
@@ -32,7 +32,7 @@ $client = new Google_Client();
 $client->setClientId($CLIENT_ID);
 $client->setAssertionCredentials(
     new Google_Auth_AssertionCredentials(
-        $CLIENT_EMAIL,
+        $CLIENT_ACCOUNT_EMAIL,
         array($SCOPE),
         file_get_contents($KEY_FILE)
     )
