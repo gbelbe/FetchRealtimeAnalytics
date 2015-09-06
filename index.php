@@ -1,11 +1,13 @@
 <0>
 
 <?php
-
+phpinfo();
   // Creates and returns the Analytics service object.
   // Load the Google API PHP Client Library.
 
 require_once 'google-api/src/Google/autoload.php';
+
+
 
 /**
  * 1. create project at https://console.developers.google.com/project
