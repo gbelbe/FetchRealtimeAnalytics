@@ -1,3 +1,5 @@
+<0>
+
 <?php
 
   // Creates and returns the Analytics service object.
