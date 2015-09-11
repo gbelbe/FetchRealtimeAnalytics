@@ -41,8 +41,6 @@ $client->setAssertionCredentials(
 
 );
 
-var_dump($client);
-
 $service = new Google_Service_Analytics($client);
 try {
     $result = $service->data_realtime->get(
