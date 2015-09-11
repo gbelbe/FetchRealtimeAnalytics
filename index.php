@@ -37,8 +37,6 @@ $client->setAssertionCredentials(
         array($SCOPE),
         file_get_contents($KEY_FILE)
     )
-
-var_dump($client);
 );
 
 $service = new Google_Service_Analytics($client);
