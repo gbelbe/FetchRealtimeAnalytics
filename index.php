@@ -1,9 +1,6 @@
-<0>
-
 <?php
-phpinfo();
-  // Creates and returns the Analytics service object.
-  // Load the Google API PHP Client Library.
+// Creates and returns the Analytics service object.
+// Load the Google API PHP Client Library.
 
 require_once 'google-api/src/Google/autoload.php';
 
