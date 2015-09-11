@@ -1,5 +1,3 @@
-Toto
-
 <?php
 // Creates and returns the Analytics service object.
 // Load the Google API PHP Client Library.
@@ -39,6 +37,8 @@ $client->setAssertionCredentials(
         array($SCOPE),
         file_get_contents($KEY_FILE)
     )
+
+var_dump($client);
 );
 
 $service = new Google_Service_Analytics($client);
