@@ -45,13 +45,40 @@ $service = new Google_Service_Analytics($client);
 try {
     $result = $service->data_realtime->get(
         $GA_VIEW_ID,
-        'rt:activeVisitors'
+        'rt:goal6Completions'//'rt:activeVisitors','rt:goal06Completions','rt:goal01Completions'
     );
 
 	//print the number of visitors realtime
-    echo "<".$result->totalsForAllResults['rt:activeVisitors'].">";
-        
+//    echo "<".$result->totalsForAllResults['rt:activeVisitors'].">";
+ //   echo "<".$result->totalsForAllResults['rt:goal06Completions'].">";   
+	echo "<".$result->totalsForAllResults['rt:goal6Completions'].">";        
 } catch(Exception $e) {
     var_dump($e);
 }
+
+
+$service = new Google_Service_Analytics($client);
+try {
+    $result = $service->data_realtime->get(
+        $GA_VIEW_ID,
+        'rt:activeVisitors'//,'rt:goal06Completions','rt:goal01Completions'
+    );
+
+	//print the number of visitors realtime
+      echo "<".$result->totalsForAllResults['rt:activeVisitors'].">";
+ //   echo "<".$result->totalsForAllResults['rt:goal06Completions'].">";   
+ //   echo "<".$result->totalsForAllResults['rt:goal6Completions'].">";        
+} catch(Exception $e) {
+    var_dump($e);
+}
+
+
+
+
+
+
+
+
+
+
 ?>
